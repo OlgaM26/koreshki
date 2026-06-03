@@ -1,228 +1,248 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import Image from "next/image";
+import { useEffect, useState } from "react";
+import { getLibrary, updateBook } from "@/lib/library";
 
 export default function ShelfPage() {
   const params = useParams();
   const shelfId = Number(params.id);
 
-  const shelves = {
-    1: {
-      name: "📚 Классика",
-      books: [
-        { id: 1, title: "Война и мир" },
-        { id: 2, title: "Анна Каренина" },
-        { id: 6, title: "Преступление и наказание" },
-        { id: 4, title: "Идиот" },
-        { id: 5, title: "Братья Карамазовы" },
-        { id: 3, title: "Мастер и Маргарита" },
-      ],
-    },
+  const [books, setBooks] = useState<any[]>([]);
+  const [drafts, setDrafts] = useState<Record<string, string>>({});
+  const [saved, setSaved] = useState<Record<string, boolean>>({});
 
-    2: {
-      name: "🐉 Фэнтези",
-      books: [
-        { id: 101, title: "Гарри Поттер" },
-        { id: 102, title: "Властелин колец" },
-        { id: 103, title: "Имя ветра" },
-        { id: 104, title: "Колесо времени" },
-        { id: 105, title: "Ведьмак" },
-        { id: 106, title: "Эрагон" },
-      ],
-    },
+  const shelves = [
+    { id: 1, name: "Классика" },
+    { id: 2, name: "Фэнтези" },
+    { id: 3, name: "Фантастика" },
+    { id: 4, name: "Детективы" },
+    { id: 5, name: "Нон-фикшн" },
+    { id: 6, name: "Романы" },
+  ];
 
-    3: {
-      name: "🧠 Нон-фикшн",
-      books: [
-        { id: 201, title: "Sapiens" },
-        { id: 202, title: "Думай медленно..." },
-        { id: 203, title: "Атомные привычки" },
-        { id: 204, title: "Психология влияния" },
-        { id: 205, title: "Чёрный лебедь" },
-      ],
-    },
+  const shelf = shelves.find((s) => s.id === shelfId);
+
+  const loadBooks = () => {
+    const all = getLibrary();
+    const filtered = all.filter((b: any) => b.shelf === shelf?.name);
+    setBooks(filtered);
   };
 
-  const shelf = shelves[shelfId as keyof typeof shelves];
+  useEffect(() => {
+    loadBooks();
+  }, [shelfId]);
+
+  const saveReview = (id: string) => {
+    updateBook(id, {
+      review: drafts[id] || "",
+    });
+
+    setSaved((prev) => ({ ...prev, [id]: true }));
+
+    setTimeout(() => {
+      setSaved((prev) => ({ ...prev, [id]: false }));
+    }, 1500);
+
+    loadBooks();
+  };
+
+  const saveBook = (id: string, data: any) => {
+    updateBook(id, data);
+    loadBooks();
+  };
 
   if (!shelf) {
-    return (
-      <main style={{ padding: "40px", fontFamily: "Georgia, serif" }}>
-        Шкаф не найден
-      </main>
-    );
+    return <div style={{ padding: 40 }}>Шкаф не найден</div>;
   }
-
-  const spines = [
-    "/covers/koresh-1.png",
-    "/covers/koresh-2.png",
-    "/covers/koresh-3.png",
-    "/covers/koresh-4.png",
-    "/covers/koresh-5.png",
-    "/covers/koresh-6.png",
-    "/covers/koresh-7.png",
-    "/covers/koresh-8.png",
-  ];
 
   return (
     <main
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(180deg, #F6F1E8, #E8DDCF)",
-        padding: "48px",
+        background: "#F6F1E8",
+        padding: "40px",
         fontFamily: "Georgia, serif",
+        color: "#2B2B2B",
       }}
     >
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        {/* назад */}
-        <button
-          onClick={() => (window.location.href = "/")}
-          style={{
-            marginBottom: "30px",
-            background: "transparent",
-            border: "none",
-            color: "#6D4C41",
-            cursor: "pointer",
-          }}
-        >
-          ← Назад к шкафам
-        </button>
+      {/* назад */}
+      <button
+        onClick={() => window.history.back()}
+        style={{
+          background: "transparent",
+          border: "none",
+          color: "#6D4C41",
+          fontSize: "16px",
+          cursor: "pointer",
+        }}
+      >
+        ← назад
+      </button>
 
-        {/* заголовок */}
-        <h1 style={{ fontSize: "52px", color: "#3E2723" }}>
-          {shelf.name}
-        </h1>
+      <h1 style={{ fontSize: "42px", color: "#3E2723" }}>
+        {shelf.name}
+      </h1>
 
-        <p style={{ color: "#7A6B5D", marginBottom: "40px" }}>
-          {shelf.books.length} книг
-        </p>
-
-        {/* 🌟 КОМНАТА */}
+      {/* ПОЛКА */}
+      <div
+        style={{
+          marginTop: "30px",
+          padding: "20px",
+          background: "#4E342E",
+          borderRadius: "14px",
+          boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
+        }}
+      >
         <div
           style={{
             display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "40px",
+            flexWrap: "wrap",
+            gap: "12px",
+            alignItems: "flex-end",
+            minHeight: "260px",
           }}
         >
-          {/* 🪵 ШКАФ КАК ОБЪЕКТ */}
-          <div
-            style={{
-              width: "950px",
-              background: "#5D4037",
-              borderRadius: "18px",
-              padding: "26px",
-              boxShadow:
-                "0 40px 90px rgba(0,0,0,0.35)",
-              position: "relative",
-            }}
-          >
-            {/* верхняя рамка */}
-            <div
-              style={{
-                height: "18px",
-                background: "#3E2723",
-                borderRadius: "8px",
-                marginBottom: "18px",
-              }}
-            />
+          {books.length === 0 && (
+            <p style={{ color: "#D7CCC8" }}>
+              На этой полке пока пусто 📭
+            </p>
+          )}
 
-            {/* внутренняя полка */}
+          {books.map((book) => (
             <div
+              key={book.id}
               style={{
-                background: "#6D4C41",
-                padding: "26px",
-                borderRadius: "12px",
-                boxShadow:
-                  "inset 0 0 40px rgba(0,0,0,0.35)",
+                width: "160px",
+                background: "#fff",
+                borderRadius: "10px",
+                padding: "10px",
+                boxShadow: "0 8px 20px rgba(0,0,0,0.3)",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  gap: "10px",
-                  flexWrap: "wrap",
-                  alignItems: "flex-end",
-                  minHeight: "260px",
-                }}
-              >
-                {shelf.books.map((book, index) => {
-                  const spine =
-                    spines[index % spines.length];
+              {/* обложка */}
+              {book.cover && (
+                <img
+                  src={book.cover}
+                  style={{
+                    width: "100%",
+                    height: "180px",
+                    objectFit: "cover",
+                    borderRadius: "6px",
+                  }}
+                />
+              )}
 
-                  return (
-                    <div
-                      key={book.id}
-                      onClick={() =>
-                        (window.location.href =
-                          `/book/${book.id}`)
-                      }
-                      style={{
-                        width: "50px",
-                        height: "240px",
-                        position: "relative",
-                        cursor: "pointer",
-                        borderRadius: "4px",
-                        overflow: "hidden",
-                        boxShadow:
-                          "0 10px 20px rgba(0,0,0,0.25)",
-                        transition:
-                          "transform 0.25s ease",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform =
-                          "translateY(-10px)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform =
-                          "translateY(0)";
-                      }}
-                    >
-                      <Image
-                        src={spine}
-                        alt={book.title}
-                        fill
-                        style={{ objectFit: "cover" }}
-                      />
+              <h4 style={{ fontSize: "13px", margin: "6px 0" }}>
+                {book.title}
+              </h4>
 
-                      <div
-                        style={{
-                          position: "absolute",
-                          inset: 0,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          padding: "6px",
-                          color: "white",
-                          fontSize: "11px",
-                          writingMode: "vertical-rl",
-                          transform: "rotate(180deg)",
-                          textShadow:
-                            "0 2px 6px rgba(0,0,0,0.6)",
-                          pointerEvents: "none",
-                        }}
-                      >
-                        {book.title}
-                      </div>
-                    </div>
-                  );
-                })}
+              <p style={{ fontSize: "11px", color: "#7A6B5D" }}>
+                {book.authors?.join(", ")}
+              </p>
+
+              {/* ⭐ рейтинг */}
+              <div style={{ fontSize: "14px" }}>
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <span
+                    key={s}
+                    onClick={() =>
+                      saveBook(book.id, { rating: s })
+                    }
+                    style={{
+                      cursor: "pointer",
+                      color:
+                        s <= (book.rating || 0)
+                          ? "#f5a623"
+                          : "#ccc",
+                    }}
+                  >
+                    ★
+                  </span>
+                ))}
               </div>
 
-              {/* нижняя полка */}
-              <div
+              {/* 📌 статус */}
+              <select
+                value={book.status || "Хочу прочитать"}
+                onChange={(e) =>
+                  saveBook(book.id, {
+                    status: e.target.value,
+                  })
+                }
                 style={{
-                  marginTop: "14px",
-                  height: "12px",
-                  background: "#3E2723",
-                  borderRadius: "6px",
+                  width: "100%",
+                  fontSize: "11px",
+                  marginTop: "6px",
+                }}
+              >
+                <option>Хочу прочитать</option>
+                <option>В процессе</option>
+                <option>Прочитана</option>
+              </select>
+
+              {/* 📝 отзыв */}
+              <textarea
+                defaultValue={book.review || ""}
+                onChange={(e) =>
+                  setDrafts({
+                    ...drafts,
+                    [book.id]: e.target.value,
+                  })
+                }
+                placeholder="Напиши отзыв..."
+                style={{
+                  width: "100%",
+                  fontSize: "11px",
+                  marginTop: "6px",
+                  minHeight: "70px",
+
+                  // 💥 КОНТРАСТ
+                  background: "#FFFDF8",
+                  border: "2px solid #3E2723",
+                  borderRadius: "10px",
+                  padding: "6px",
+                  color: "#2B2B2B",
+                  outline: "none",
                 }}
               />
+
+              {/* 💾 кнопка сохранения */}
+              <button
+                onClick={() => saveReview(book.id)}
+                style={{
+                  marginTop: "6px",
+                  width: "100%",
+                  fontSize: "11px",
+                  border: "none",
+                  borderRadius: "6px",
+                  padding: "6px",
+                  cursor: "pointer",
+
+                  background: saved[book.id]
+                    ? "#2E7D32"
+                    : "#3E2723",
+                  color: "#fff",
+                  transition: "0.2s",
+                }}
+              >
+                {saved[book.id]
+                  ? "Сохранено ✓"
+                  : "Сохранить отзыв"}
+              </button>
             </div>
-          </div>
+          ))}
         </div>
+
+        {/* полка */}
+        <div
+          style={{
+            marginTop: "10px",
+            height: "12px",
+            background: "#8D6E63",
+            borderRadius: "4px",
+          }}
+        />
       </div>
     </main>
   );

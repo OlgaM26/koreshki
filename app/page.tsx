@@ -1,52 +1,28 @@
 "use client";
 
+import Link from "next/link";
+
 export default function HomePage() {
   const shelves = [
-    {
-      id: 1,
-      icon: "📚",
-      name: "Классика",
-      books: 42,
-    },
-    {
-      id: 2,
-      icon: "🐉",
-      name: "Фэнтези",
-      books: 31,
-    },
-    {
-      id: 3,
-      icon: "🚀",
-      name: "Фантастика",
-      books: 24,
-    },
-    {
-      id: 4,
-      icon: "🕵️",
-      name: "Детективы",
-      books: 17,
-    },
-    {
-      id: 5,
-      icon: "🧠",
-      name: "Нон-фикшн",
-      books: 18,
-    },
-    {
-      id: 6,
-      icon: "❤️",
-      name: "Романы",
-      books: 22,
-    },
+    { id: 1, icon: "📚", name: "Классика" },
+    { id: 2, icon: "🐉", name: "Фэнтези" },
+    { id: 3, icon: "🚀", name: "Фантастика" },
+    { id: 4, icon: "🕵️", name: "Детективы" },
+    { id: 5, icon: "🧠", name: "Нон-фикшн" },
+    { id: 6, icon: "❤️", name: "Романы" },
   ];
 
   const bookColors = [
-    "#8B5A2B",
-    "#5D4037",
-    "#3E5C76",
-    "#6B705C",
-    "#7F5539",
     "#6D4C41",
+    "#8B4513",
+    "#4A4E69",
+    "#3D5A80",
+    "#556B2F",
+    "#7B2D26",
+    "#5C4033",
+    "#2F4858",
+    "#7F5539",
+    "#6B705C",
   ];
 
   return (
@@ -64,210 +40,203 @@ export default function HomePage() {
           margin: "0 auto",
         }}
       >
-        {/* Шапка */}
-        <div
+        {/* ШАПКА */}
+        <h1
           style={{
-            marginBottom: "48px",
+            fontSize: "72px",
+            color: "#3E2723",
+            marginBottom: "10px",
           }}
         >
-          <h1
-            style={{
-              fontSize: "72px",
-              color: "#3E2723",
-              margin: 0,
-              lineHeight: 1,
-            }}
-          >
-            Корешки
-          </h1>
+          Корешки
+        </h1>
 
-          <p
-            style={{
-              fontSize: "22px",
-              color: "#7A6B5D",
-              marginTop: "14px",
-            }}
-          >
-            твоя домашняя библиотека
-          </p>
-        </div>
+        <p
+          style={{
+            color: "#7A6B5D",
+            fontSize: "20px",
+            marginBottom: "20px",
+          }}
+        >
+          твоя домашняя библиотека
+        </p>
 
-        {/* Статистика */}
+        {/* КНОПКИ */}
         <div
           style={{
             display: "flex",
-            gap: "20px",
+            gap: "12px",
+            marginBottom: "40px",
             flexWrap: "wrap",
-            marginBottom: "56px",
           }}
         >
-          {[
-            ["154", "книги"],
-            ["67", "прочитано"],
-            ["14", "в процессе"],
-          ].map(([value, label]) => (
-            <div
-              key={label}
-              style={{
-                background: "#FFFFFF",
-                padding: "24px",
-                borderRadius: "18px",
-                minWidth: "180px",
-                boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "34px",
-                  fontWeight: "bold",
-                  color: "#3E2723",
-                }}
-              >
-                {value}
-              </div>
+          <Link href="/search">
+            <button style={btn("#3E2723")}>
+              ➕ Добавить книгу
+            </button>
+          </Link>
 
-              <div
-                style={{
-                  marginTop: "6px",
-                  color: "#7A6B5D",
-                }}
-              >
-                {label}
-              </div>
-            </div>
-          ))}
+          <Link href="/find">
+            <button style={btn("#5D4037")}>
+              🔎 Поиск по шкафам
+            </button>
+          </Link>
+
+          <Link href="/library">
+            <button style={btn("#6D4C41")}>
+              📚 Библиотека
+            </button>
+          </Link>
         </div>
 
-        {/* Заголовок */}
+        {/* ШКАФЫ */}
         <h2
           style={{
             color: "#3E2723",
-            fontSize: "32px",
             marginBottom: "24px",
           }}
         >
           Мои шкафы
         </h2>
 
-        {/* Сетка шкафов */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
+            gridTemplateColumns:
+              "repeat(auto-fill, minmax(340px, 1fr))",
             gap: "24px",
           }}
         >
           {shelves.map((shelf) => (
-            <div
+            <Link
               key={shelf.id}
-              onClick={() => {
-                window.location.href = `/shelf/${shelf.id}`;
-              }}
+              href={`/shelf/${shelf.id}`}
               style={{
-                background: "#6D4C41",
-                borderRadius: "22px",
-                padding: "24px",
-                cursor: "pointer",
-                boxShadow: "0 18px 40px rgba(0,0,0,0.15)",
-                transition: "transform 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-4px)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
+                textDecoration: "none",
               }}
             >
-              {/* Название */}
-              <h3
-                style={{
-                  color: "#F6F1E8",
-                  margin: 0,
-                  fontSize: "26px",
-                }}
-              >
-                {shelf.icon} {shelf.name}
-              </h3>
-
-              <p
-                style={{
-                  color: "#D7CCC8",
-                  marginTop: "10px",
-                  marginBottom: "20px",
-                }}
-              >
-                {shelf.books} книг
-              </p>
-
-              {/* Мини-шкаф */}
               <div
                 style={{
-                  background: "#4E342E",
-                  borderRadius: "12px",
-                  padding: "16px",
-                  border: "2px solid rgba(255,255,255,0.08)",
+                  background: "#6D4C41",
+                  borderRadius: "22px",
+                  padding: "24px",
+                  cursor: "pointer",
+                  boxShadow: "0 18px 40px rgba(0,0,0,0.15)",
+                  transition: "all 0.2s ease",
+                  color: "#fff",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform =
+                    "translateY(-4px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform =
+                    "translateY(0)";
                 }}
               >
-                {/* Полка */}
-                <div
+                <h3
                   style={{
-                    display: "flex",
-                    alignItems: "flex-end",
-                    gap: "5px",
-                    minHeight: "130px",
+                    margin: 0,
+                    fontSize: "26px",
                   }}
                 >
-                  {Array.from({ length: 12 }).map((_, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        width: "18px",
-                        height: `${90 + (i % 4) * 18}px`,
-                        backgroundColor:
-                          bookColors[i % bookColors.length],
-                        borderRadius: "3px 3px 0 0",
-                        boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
-                      }}
-                    />
-                  ))}
-                </div>
+                  {shelf.icon} {shelf.name}
+                </h3>
 
-                {/* Деревянная полка */}
+                {/* КРАСИВЫЕ КОРЕШКИ */}
                 <div
                   style={{
-                    marginTop: "8px",
-                    height: "10px",
-                    background: "#8D6E63",
-                    borderRadius: "3px",
+                    marginTop: "20px",
+                    display: "flex",
+                    alignItems: "flex-end",
+                    gap: "4px",
+                    minHeight: "160px",
+                  }}
+                >
+                  {Array.from({ length: 14 }).map((_, i) => {
+                    const height =
+                      90 + ((i * 17) % 70);
+
+                    return (
+                      <div
+                        key={i}
+                        style={{
+                          width: `${18 + (i % 3)}px`,
+                          height: `${height}px`,
+                          background:
+                            bookColors[
+                              i % bookColors.length
+                            ],
+                          borderRadius: "3px 3px 0 0",
+                          position: "relative",
+                          boxShadow:
+                            "0 5px 10px rgba(0,0,0,0.25)",
+                          borderLeft:
+                            "2px solid rgba(255,255,255,0.25)",
+                          borderRight:
+                            "1px solid rgba(0,0,0,0.25)",
+                        }}
+                      >
+                        {/* золотая полоска */}
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "8px",
+                            left: "3px",
+                            right: "3px",
+                            height: "2px",
+                            background: "#D4AF37",
+                            opacity: 0.8,
+                          }}
+                        />
+
+                        {/* декоративная полоска */}
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "20px",
+                            left: "4px",
+                            right: "4px",
+                            height: "1px",
+                            background:
+                              "rgba(255,255,255,0.35)",
+                          }}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* ПОЛКА */}
+                <div
+                  style={{
+                    marginTop: "10px",
+                    height: "12px",
+                    background: "#4E342E",
+                    borderRadius: "4px",
+                    boxShadow:
+                      "0 2px 6px rgba(0,0,0,0.25)",
                   }}
                 />
               </div>
-            </div>
+            </Link>
           ))}
-        </div>
-
-        {/* Кнопка */}
-        <div
-          style={{
-            marginTop: "48px",
-          }}
-        >
-          <button
-            style={{
-              background: "#3E2723",
-              color: "#FFFFFF",
-              border: "none",
-              borderRadius: "14px",
-              padding: "16px 28px",
-              fontSize: "16px",
-              cursor: "pointer",
-              boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
-            }}
-          >
-            + Добавить книгу
-          </button>
         </div>
       </div>
     </main>
   );
+}
+
+function btn(color: string) {
+  return {
+    background: color,
+    color: "#fff",
+    border: "none",
+    borderRadius: "14px",
+    padding: "12px 20px",
+    cursor: "pointer",
+    fontSize: "15px",
+    fontWeight: 500,
+    boxShadow: "0 6px 12px rgba(0,0,0,0.12)",
+  };
 }
