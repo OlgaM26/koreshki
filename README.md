@@ -1,36 +1,131 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📚 Koreshki — Digital Bookshelf
 
-## Getting Started
+Интерактивная домашняя веб-библиотека с визуальным книжным шкафом, где книги представлены в виде корешков на полке.
 
-First, run the development server:
+Проект создан в учебных целях для понимания работы современных веб-интерфейсов, структуры Next.js приложений и принципов построения UI.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Описание проекта
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Koreshki** — это веб-приложение, имитирующее домашнюю библиотеку:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- 📚 Шкафы разделены по жанрам (Классика, Фэнтези, Нон-фикшн)
+- 📖 Книги отображаются в виде корешков на полке
+- 🖱️ Переход в карточку книги по клику
+- 🪵 Визуальный стиль деревянного книжного шкафа
+- 🎨 Использование изображений корешков книг
+- 📱 Простой и адаптивный интерфейс
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Технологии
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Next.js (App Router)
+- React
+- TypeScript
+- Inline CSS (style objects)
+- Next/Image
+- Git / GitHub
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 📂 Структура проекта
+# 📚 Koreshki — Digital Bookshelf
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Интерактивная веб-библиотека с визуальным книжным шкафом, где книги представлены в виде корешков на полке.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Проект создан в учебных целях для понимания работы современных веб-интерфейсов, структуры Next.js приложений и принципов построения UI.
+
+---
+
+## ✨ Описание проекта
+
+**Koreshki** — это веб-приложение, имитирующее домашнюю библиотеку:
+
+- 📚 Шкафы разделены по жанрам (Классика, Фэнтези, Нон-фикшн)
+- 📖 Книги отображаются в виде корешков на полке
+- 🖱️ Переход в карточку книги по клику
+- 🪵 Визуальный стиль деревянного книжного шкафа
+- 🎨 Использование изображений корешков книг
+- 📱 Простой и адаптивный интерфейс
+
+---
+
+## 🛠️ Технологии
+
+- Next.js (App Router)
+- React
+- TypeScript
+- Inline CSS (style objects)
+- Next/Image
+- Git / GitHub
+
+---
+
+## 📂 Структура проекта
+
+app/
+├── page.tsx # Главная страница (шкафы по жанрам)
+├── shelf/[id]/page.tsx # Страница конкретного шкафа
+├── book/[id]/page.tsx # Карточка книги
+
+public/
+└── covers/ # Обложки и корешки книг
+
+---
+
+## 📚 Функциональность
+
+### 📌 Главная страница
+- Отображение шкафов по жанрам
+- Мини-превью книг
+- Навигация в конкретный шкаф
+
+### 📌 Страница шкафа
+- Визуализация книг как корешков
+- Hover-анимации
+- Переход к книге
+
+### 📌 Карточка книги
+- Обложка книги
+- Автор
+- Описание
+- Статус
+- Рейтинг
+
+---
+
+## 🎯 Цель проекта
+
+Проект создан для:
+
+- изучения Next.js App Router
+- понимания структуры React-приложений
+- практики работы с компонентами и страницами
+- освоения UI-логики и взаимодействий
+- работы с изображениями и статикой
+
+---
+
+## 🧪 Возможные улучшения
+
+- [ ] Анимации перелистывания книг
+- [ ] Drag & drop книг по полке
+- [ ] Добавление базы данных
+- [ ] Авторизация пользователей
+- [ ] Темная тема интерфейса
+- [ ] 3D визуализация шкафа
+
+---
+
+## 🔗 Ссылка на проект
+
+GitHub:  
+https://github.com/OlgaM26/koreshki
+
+---
+
+## 👩‍💻 Примечание
+
+Проект выполнен в рамках изучения фронтенд-разработки и работы с современными веб-технологиями.
