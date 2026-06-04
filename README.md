@@ -19,6 +19,38 @@
 
 ---
 
+## 📸 Скриншоты
+
+### 🏠 Главная страница
+
+![Главная страница](screenshots/Home.jpg)
+
+---
+
+### 🔎 Поиск по библиотеке
+
+![Поиск](screenshots/search.jpg)
+
+---
+
+### 🌐 Поиск через Open Library API
+
+![Поиск API](screenshots/search%20Library%20API.jpg)
+
+---
+
+### 📚 Моя библиотека
+
+![Библиотека](screenshots/library.jpg)
+
+---
+
+### 🪵 Книжный шкаф
+
+![Шкаф](screenshots/shelf.jpg)
+
+---
+
 ## 🛠️ Технологии
 
 - Next.js (App Router)
